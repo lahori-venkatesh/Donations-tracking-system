@@ -88,142 +88,144 @@ const LeaderboardCard = ({ className = '' }) => {
   };
 
   return (
-    <div className={`card ${className}`}>
-      <div className="flex items-center justify-between mb-6">
-        <div>
-          <h3 className="text-xl font-bold text-gray-900">Donor Leaderboard</h3>
-          <p className="text-gray-600">Celebrating our amazing donors</p>
+    <div className={`card rounded-2xl shadow-xl bg-white overflow-hidden ${className}`}>
+      <div className="p-6 md:p-8">
+        <div className="flex items-center justify-between mb-6">
+          <div>
+            <h3 className="text-2xl font-bold text-gray-900 tracking-tight">Donor Leaderboard</h3>
+            <p className="text-sm text-gray-500 mt-1">Celebrating our amazing donors</p>
+          </div>
+          <div className="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center shadow-md">
+            <svg className="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+            </svg>
+          </div>
         </div>
-        <div className="w-8 h-8 bg-yellow-100 rounded-lg flex items-center justify-center">
-          <svg className="w-5 h-5 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
-          </svg>
+
+        {/* Tab Navigation */}
+        <div className="grid grid-cols-3 gap-2 mb-6 bg-gray-100 rounded-full p-1.5 shadow-inner">
+          {tabs.map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`
+                flex items-center justify-center space-x-2 py-3 px-4 rounded-full text-sm font-medium transition-all duration-300 ease-in-out
+                ${activeTab === tab.id 
+                  ? 'bg-white text-primary-600 shadow-md' 
+                  : 'text-gray-600 hover:text-gray-900 hover:bg-gray-200'
+                }
+              `}
+            >
+              {tab.icon}
+              <span className="ml-1">{tab.label}</span>
+            </button>
+          ))}
         </div>
-      </div>
 
-      {/* Tab Navigation */}
-      <div className="flex space-x-1 mb-6 bg-gray-100 rounded-lg p-1">
-        {tabs.map((tab) => (
-          <button
-            key={tab.id}
-            onClick={() => setActiveTab(tab.id)}
-            className={`
-              flex-1 flex items-center justify-center space-x-2 py-2 px-3 rounded-md text-sm font-medium transition-all
-              ${activeTab === tab.id 
-                ? 'bg-white text-primary-600 shadow-sm' 
-                : 'text-gray-600 hover:text-gray-900'
-              }
-            `}
-          >
-            {tab.icon}
-            <span className="hidden sm:inline">{tab.label}</span>
-          </button>
-        ))}
-      </div>
+        {/* Time Period Selector */}
+        <div className="flex space-x-3 mb-6 overflow-x-auto pb-2 scrollbar-hide">
+          {periods.map((period) => (
+            <button
+              key={period.id}
+              onClick={() => setTimePeriod(period.id)}
+              className={`
+                px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ease-in-out whitespace-nowrap shadow-sm
+                ${timePeriod === period.id 
+                  ? 'bg-primary-100 text-primary-700 scale-105' 
+                  : 'text-gray-600 hover:bg-gray-100 hover:scale-105'
+                }
+              `}
+            >
+              {period.label}
+            </button>
+          ))}
+        </div>
 
-      {/* Time Period Selector */}
-      <div className="flex space-x-2 mb-6">
-        {periods.map((period) => (
-          <button
-            key={period.id}
-            onClick={() => setTimePeriod(period.id)}
-            className={`
-              px-3 py-1 rounded-full text-sm font-medium transition-all
-              ${timePeriod === period.id 
-                ? 'bg-primary-100 text-primary-700' 
-                : 'text-gray-600 hover:bg-gray-100'
-              }
-            `}
-          >
-            {period.label}
-          </button>
-        ))}
-      </div>
+        {/* Leaderboard List */}
+        <div className="space-y-4">
+          {leaderboardData.map((donor) => (
+            <div
+              key={donor.id}
+              className="flex items-center space-x-4 p-4 rounded-xl bg-gray-50 hover:bg-gray-100 transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5 cursor-pointer"
+            >
+              {/* Rank */}
+              <div className={`
+                w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg shadow-sm
+                ${getRankColor(donor.rank)}
+              `}>
+                {typeof getRankIcon(donor.rank) === 'string' 
+                  ? getRankIcon(donor.rank)
+                  : getRankIcon(donor.rank)
+                }
+              </div>
 
-      {/* Leaderboard List */}
-      <div className="space-y-3">
-        {leaderboardData.map((donor) => (
-          <div
-            key={donor.id}
-            className="flex items-center space-x-4 p-3 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors"
-          >
-            {/* Rank */}
-            <div className={`
-              w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm
-              ${getRankColor(donor.rank)}
-            `}>
-              {typeof getRankIcon(donor.rank) === 'string' 
-                ? getRankIcon(donor.rank)
-                : getRankIcon(donor.rank)
-              }
-            </div>
+              {/* Avatar */}
+              <div className="relative w-12 h-12 bg-gradient-to-br from-primary-400 to-secondary-400 rounded-full flex items-center justify-center ring-2 ring-white shadow-md">
+                <span className="text-white font-semibold text-base">
+                  {donor.isAnonymous ? '?' : donor.displayName.charAt(0)}
+                </span>
+              </div>
 
-            {/* Avatar */}
-            <div className="w-10 h-10 bg-gradient-to-br from-primary-400 to-secondary-400 rounded-full flex items-center justify-center">
-              <span className="text-white font-semibold text-sm">
-                {donor.isAnonymous ? '?' : donor.displayName.charAt(0)}
-              </span>
-            </div>
+              {/* Donor Info */}
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center space-x-2">
+                  <h4 className="font-semibold text-gray-900 truncate text-lg">
+                    {donor.displayName}
+                  </h4>
+                  {donor.badges && donor.badges.length > 0 && (
+                    <div className="flex space-x-1">
+                      {donor.badges.slice(0, 2).map((badgeId) => (
+                        <BadgeDisplay 
+                          key={badgeId}
+                          badge={{ id: badgeId }} 
+                          size="sm" 
+                          showTooltip={false}
+                        />
+                      ))}
+                    </div>
+                  )}
+                </div>
+                <div className="text-sm text-gray-600 mt-1">
+                  {activeTab === 'amount' && (
+                    <>₹{donor.totalAmount?.toLocaleString()} • {donor.donationCount} donations</>
+                  )}
+                  {activeTab === 'count' && (
+                    <>{donor.donationCount} donations • {donor.projectsSupported} projects</>
+                  )}
+                  {activeTab === 'impact' && (
+                    <>₹{donor.totalAmount?.toLocaleString()} • Avg: ₹{donor.avgDonation?.toLocaleString()}</>
+                  )}
+                </div>
+              </div>
 
-            {/* Donor Info */}
-            <div className="flex-1 min-w-0">
-              <div className="flex items-center space-x-2">
-                <h4 className="font-semibold text-gray-900 truncate">
-                  {donor.displayName}
-                </h4>
-                {donor.badges && donor.badges.length > 0 && (
-                  <div className="flex space-x-1">
-                    {donor.badges.slice(0, 2).map((badgeId) => (
-                      <BadgeDisplay 
-                        key={badgeId}
-                        badge={{ id: badgeId }} 
-                        size="sm" 
-                        showTooltip={false}
-                      />
-                    ))}
+              {/* Stats */}
+              <div className="text-right">
+                {activeTab === 'amount' && (
+                  <div className="text-xl font-bold text-primary-600">
+                    ₹{donor.totalAmount?.toLocaleString()}
+                  </div>
+                )}
+                {activeTab === 'count' && (
+                  <div className="text-xl font-bold text-secondary-600">
+                    {donor.donationCount}
+                  </div>
+                )}
+                {activeTab === 'impact' && (
+                  <div className="text-xl font-bold text-accent-600">
+                    ₹{donor.avgDonation?.toLocaleString()}
                   </div>
                 )}
               </div>
-              <div className="text-sm text-gray-600">
-                {activeTab === 'amount' && (
-                  <>₹{donor.totalAmount?.toLocaleString()} • {donor.donationCount} donations</>
-                )}
-                {activeTab === 'count' && (
-                  <>{donor.donationCount} donations • {donor.projectsSupported} projects</>
-                )}
-                {activeTab === 'impact' && (
-                  <>₹{donor.totalAmount?.toLocaleString()} • Avg: ₹{donor.avgDonation?.toLocaleString()}</>
-                )}
-              </div>
             </div>
+          ))}
+        </div>
 
-            {/* Stats */}
-            <div className="text-right">
-              {activeTab === 'amount' && (
-                <div className="text-lg font-bold text-primary-600">
-                  ₹{donor.totalAmount?.toLocaleString()}
-                </div>
-              )}
-              {activeTab === 'count' && (
-                <div className="text-lg font-bold text-secondary-600">
-                  {donor.donationCount}
-                </div>
-              )}
-              {activeTab === 'impact' && (
-                <div className="text-lg font-bold text-accent-600">
-                  ₹{donor.avgDonation?.toLocaleString()}
-                </div>
-              )}
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* View Full Leaderboard */}
-      <div className="mt-6 text-center">
-        <button className="btn-secondary">
-          View Full Leaderboard
-        </button>
+        {/* View Full Leaderboard */}
+        <div className="mt-8 text-center">
+          <button className="w-full py-3 px-6 rounded-full text-sm font-medium bg-secondary-100 text-secondary-700 hover:bg-secondary-200 transition-all duration-300 shadow-md hover:shadow-lg">
+            View Full Leaderboard
+          </button>
+        </div>
       </div>
     </div>
   );
