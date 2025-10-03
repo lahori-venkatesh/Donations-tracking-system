@@ -1,0 +1,70 @@
+{
+  "name": "donatetrack",
+  "version": "1.0.0",
+  "description": "A comprehensive donation tracking and management platform connecting donors with verified NGOs across India",
+  "main": "index.js",
+  "scripts": {
+    "install:all": "npm run install:backend && npm run install:frontend && npm run install:admin",
+    "install:backend": "cd backend && npm install",
+    "install:frontend": "cd frontend && npm install",
+    "install:admin": "cd admin && npm install",
+    "start": "concurrently \"npm run start:backend\" \"npm run start:frontend\" \"npm run start:admin\"",
+    "start:backend": "cd backend && npm run dev",
+    "start:frontend": "cd frontend && npm start",
+    "start:admin": "cd admin && npm start",
+    "build": "npm run build:frontend && npm run build:admin",
+    "build:frontend": "cd frontend && npm run build",
+    "build:admin": "cd admin && npm run build",
+    "test": "npm run test:backend && npm run test:frontend && npm run test:admin",
+    "test:backend": "cd backend && npm test",
+    "test:frontend": "cd frontend && npm test -- --watchAll=false",
+    "test:admin": "cd admin && npm test -- --watchAll=false",
+    "lint": "npm run lint:backend && npm run lint:frontend && npm run lint:admin",
+    "lint:backend": "cd backend && npm run lint",
+    "lint:frontend": "cd frontend && npm run lint",
+    "lint:admin": "cd admin && npm run lint",
+    "dev": "concurrently \"npm run start:backend\" \"npm run start:frontend\" \"npm run start:admin\"",
+    "setup": "npm run install:all && npm run setup:env && npm run setup:db",
+    "setup:env": "cp backend/.env.example backend/.env && cp admin/.env.example admin/.env",
+    "setup:db": "cd backend && npm run db:seed",
+    "clean": "rm -rf backend/node_modules frontend/node_modules admin/node_modules",
+    "reset": "npm run clean && npm run install:all"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/venkatesh/donatetrack.git"
+  },
+  "keywords": [
+    "donation",
+    "ngo",
+    "charity",
+    "fundraising",
+    "transparency",
+    "india",
+    "react",
+    "nodejs",
+    "mongodb",
+    "express"
+  ],
+  "author": {
+    "name": "Venkatesh",
+    "email": "lahorivenkatesh709@gmail.com"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/venkatesh/donatetrack/issues"
+  },
+  "homepage": "https://github.com/venkatesh/donatetrack#readme",
+  "devDependencies": {
+    "concurrently": "^7.6.0"
+  },
+  "engines": {
+    "node": ">=14.0.0",
+    "npm": ">=6.0.0"
+  },
+  "workspaces": [
+    "frontend",
+    "backend",
+    "admin"
+  ]
+}
